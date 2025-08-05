@@ -1,16 +1,13 @@
-version: "3.8"
 services:
-  web:
+  redis:
+    image: redis:alpine
+    restart: always
+
+  weather:
+    image: ghcr.io/arbaradoz976/weather-pyapp:latest
     build: .
-    ports:
-      - "8080:80"           # hôte:conteneur
-    environment:
-      LAT: "-22.2758"
-      LON: "166.4579"
-      TIMEZONE: "Pacific/Noumea"
-      CACHE_TTL: "600"      # 10 minutes
     depends_on:
       - redis
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
+    restart: always
+    ports:
+      - "8080:80"
